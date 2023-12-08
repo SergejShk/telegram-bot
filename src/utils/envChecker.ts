@@ -1,10 +1,4 @@
-interface IVariables {
-  TL_BOT_TOKEN: string;
-  WEATHER_BASE_URL: string;
-  WEATHER_API_KEY: string;
-  PB_API: string;
-  MONO_API: string;
-}
+import { IVariables } from "@/interface/variables";
 
 const variables: IVariables = {
   TL_BOT_TOKEN: process.env.TL_BOT_TOKEN || "",

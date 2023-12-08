@@ -61,14 +61,10 @@ const start = () => {
         return currency.currencyCase(chatId);
 
       case "Dnipro":
-        return weather.cityCase(chatId, data);
-
       case "Valencia":
         return weather.cityCase(chatId, data);
 
       case "3_hours":
-        return weather.hoursCase(chatId, text, data);
-
       case "6_hours":
         return weather.hoursCase(chatId, text, data);
 
@@ -76,6 +72,7 @@ const start = () => {
         return weather.stopSendWeather(chatId);
 
       case "USD":
+      case "EUR":
         return currency.selectedCurrencyCase(chatId, data);
 
       default:

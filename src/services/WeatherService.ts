@@ -18,8 +18,12 @@ class WeatherService {
       units: this.units,
     });
 
-    const { data } = await axios.get(this.baseUrl, { params });
-    return data;
+    try {
+      const { data } = await axios.get(this.baseUrl, { params });
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
   };
 }
 
