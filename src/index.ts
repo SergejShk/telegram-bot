@@ -1,41 +1,20 @@
-import TelegramBot, { ChatId } from "node-telegram-bot-api";
-import dotenv from "dotenv";
+import TelegramBot from "node-telegram-bot-api";
+import "dotenv/config";
 
-import {
-  citiesKeyboard,
-  intervalKeyboard,
-  mainKeyboard,
-} from "./utils/keyboards";
-
-dotenv.config();
-
-const botToken = process.env.TL_BOT_TOKEN || "";
-
-const bot = new TelegramBot(botToken, { polling: true });
+import MainController from "./controllers/MainController";
+import Weather from "./controllers/Weather";
+import Currency from "./controllers/Currency";
 
 const start = () => {
-  bot.setMyCommands([
-    { command: "weather", description: "Weather" },
-    { command: "currency", description: "Currency" },
-  ]);
+  const botToken = process.env.TL_BOT_TOKEN || "";
 
-  const mainMenuCase = (chatId: ChatId) => {
-    bot.sendMessage(chatId, "Please choose the option", {
-      reply_markup: mainKeyboard,
-    });
-  };
+  const bot = new TelegramBot(botToken, { polling: true });
 
-  const weatherCase = (chatId: ChatId) => {
-    bot.sendMessage(chatId, "Please select the city", {
-      reply_markup: citiesKeyboard,
-    });
-  };
+  const mainController = new MainController(bot);
+  const weather = new Weather(bot);
+  const currency = new Currency(bot);
 
-  const cityCase = (chatId: ChatId) => {
-    bot.sendMessage(chatId, "Please select an interval", {
-      reply_markup: intervalKeyboard,
-    });
-  };
+  mainController.setCommands();
 
   bot.on("message", (msg) => {
     const chatId = msg.chat.id;
@@ -43,27 +22,16 @@ const start = () => {
 
     switch (text) {
       case "/start":
-        return bot.sendMessage(
-          msg.chat.id,
-          "Welcome!\nPlease choose the option",
-          {
-            reply_markup: mainKeyboard,
-          }
-        );
+        return mainController.startCase(chatId);
 
       case "/weather":
-        return weatherCase(chatId);
+        return weather.weatherCase(chatId);
 
       case "/currency":
-        return bot.sendMessage(chatId, "Selected currency", {
-          reply_markup: mainKeyboard,
-        });
+        return currency.currencyCase(chatId);
 
       default:
-        return bot.sendMessage(
-          chatId,
-          "The command is not found.\nPlease try again"
-        );
+        return mainController.defaultCase(chatId);
     }
   });
 
@@ -73,27 +41,22 @@ const start = () => {
 
     switch (data) {
       case "to_main_menu":
-        return mainMenuCase(chatId);
+        return mainController.mainMenuCase(chatId);
 
       case "weather":
-        return weatherCase(chatId);
+        return weather.weatherCase(chatId);
 
       case "currency":
-        return bot.sendMessage(chatId, "Selected currency", {
-          reply_markup: mainKeyboard,
-        });
+        return currency.currencyCase(chatId);
 
       case "dnipro":
-        return cityCase(chatId);
+        return weather.cityCase(chatId);
 
       case "valencia":
-        return cityCase(chatId);
+        return weather.cityCase(chatId);
 
       default:
-        return bot.sendMessage(
-          chatId,
-          "The command is not found.\nPlease try again"
-        );
+        return mainController.defaultCase(chatId);
     }
   });
 };

@@ -1,3 +1,8 @@
+export const mainCommands = [
+  { command: "weather", description: "Weather" },
+  { command: "currency", description: "Currency" },
+];
+
 export const mainKeyboard = {
   inline_keyboard: [
     [
@@ -17,11 +22,11 @@ export const intervalKeyboard = {
   inline_keyboard: [
     [
       {
-        text: "3-hour interval",
+        text: "3-hour",
         callback_data: "3_hours",
       },
       {
-        text: "6-hour interval",
+        text: "6-hour",
         callback_data: "6_hours",
       },
     ],
@@ -39,6 +44,22 @@ export const citiesKeyboard = {
       {
         text: "Valencia",
         callback_data: "valencia",
+      },
+    ],
+    [{ text: "To main menu", callback_data: "to_main_menu" }],
+  ],
+};
+
+export const currencyKeyboard = {
+  inline_keyboard: [
+    [
+      {
+        text: "USD",
+        callback_data: "usd",
+      },
+      {
+        text: "EUR",
+        callback_data: "eur",
       },
     ],
     [{ text: "To main menu", callback_data: "to_main_menu" }],
