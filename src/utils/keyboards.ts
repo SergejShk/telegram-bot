@@ -3,6 +3,10 @@ export const mainCommands = [
   { command: "currency", description: "Currency" },
 ];
 
+export const mainMenuKeyboard = {
+  inline_keyboard: [[{ text: "To main menu", callback_data: "to_main_menu" }]],
+};
+
 export const mainKeyboard = {
   inline_keyboard: [
     [
@@ -39,11 +43,11 @@ export const citiesKeyboard = {
     [
       {
         text: "Dnipro",
-        callback_data: "dnipro",
+        callback_data: "Dnipro",
       },
       {
         text: "Valencia",
-        callback_data: "valencia",
+        callback_data: "Valencia",
       },
     ],
     [{ text: "To main menu", callback_data: "to_main_menu" }],
