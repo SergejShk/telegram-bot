@@ -19,7 +19,7 @@ app.get("/", (_, res) => {
   res.send("Server is working!");
 });
 
-app.get("/bot", (req, res) => {
+app.get("bot", (req, res) => {
   if (!req.body) return res.sendStatus(200);
   const { body } = req.body;
 
