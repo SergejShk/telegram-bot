@@ -65,7 +65,13 @@ const start = () => {
         return weather.cityCase(chatId, data);
 
       case "3_hours":
-        return weather.threeHoursCase(chatId, text);
+        return weather.hoursCase(chatId, text, data);
+
+      case "6_hours":
+        return weather.hoursCase(chatId, text, data);
+
+      case "stop_and_go_to_main_menu":
+        return weather.stopSendWeather(chatId);
 
       default:
         return mainController.defaultCase(chatId);

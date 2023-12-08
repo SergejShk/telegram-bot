@@ -1,8 +1,5 @@
 import axios from "axios";
 
-// const w =
-//   "https://api.openweathermap.org/data/2.5/weather?q=Dnipro&APPID=b4ac6f4f173e7cd5724ec3039577d1ec&units=metric";
-
 class WeatherService {
   apiKey: string;
   baseUrl: string;

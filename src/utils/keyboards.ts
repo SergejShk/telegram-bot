@@ -7,6 +7,17 @@ export const mainMenuKeyboard = {
   inline_keyboard: [[{ text: "To main menu", callback_data: "to_main_menu" }]],
 };
 
+export const stopAndGoToMainMenuKeyboard = {
+  inline_keyboard: [
+    [
+      {
+        text: "Stop and go to main menu",
+        callback_data: "stop_and_go_to_main_menu",
+      },
+    ],
+  ],
+};
+
 export const mainKeyboard = {
   inline_keyboard: [
     [
@@ -34,7 +45,7 @@ export const intervalKeyboard = {
         callback_data: "6_hours",
       },
     ],
-    [{ text: "To main menu", callback_data: "to_main_menu" }],
+    ...mainMenuKeyboard.inline_keyboard,
   ],
 };
 
@@ -50,7 +61,7 @@ export const citiesKeyboard = {
         callback_data: "Valencia",
       },
     ],
-    [{ text: "To main menu", callback_data: "to_main_menu" }],
+    ...mainMenuKeyboard.inline_keyboard,
   ],
 };
 
@@ -66,6 +77,6 @@ export const currencyKeyboard = {
         callback_data: "eur",
       },
     ],
-    [{ text: "To main menu", callback_data: "to_main_menu" }],
+    ...mainMenuKeyboard.inline_keyboard,
   ],
 };

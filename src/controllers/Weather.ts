@@ -5,17 +5,19 @@ import MainController from "./MainController";
 import WeatherService from "../services/WeatherService";
 
 import {
+  stopAndGoToMainMenuKeyboard,
   citiesKeyboard,
   intervalKeyboard,
-  mainMenuKeyboard,
 } from "../utils/keyboards";
 
 class Weather extends MainController {
   weatherService: WeatherService;
+  weatherInterval: NodeJS.Timeout | undefined;
 
   constructor(bot: TelegramBot, weatherService: WeatherService) {
     super(bot);
     this.weatherService = weatherService;
+    this.weatherInterval = undefined;
   }
 
   public weatherCase = (chatId: ChatId) => {
@@ -34,23 +36,38 @@ class Weather extends MainController {
     );
   };
 
-  public threeHoursCase = async (chatId: ChatId, text: string) => {
+  public hoursCase = async (chatId: ChatId, text: string, data: string) => {
     const splitedText = text.split(".")[0].split(" ");
     const city = splitedText[splitedText.length - 1];
+
+    const hours = data.split("_")[0];
 
     if (!city) {
       return this.defaultCase(chatId);
     }
 
-    const data = await this.weatherService.getWeatherByCity(city);
+    this.startSendWeather(chatId, city, hours);
+  };
 
-    this.bot.sendMessage(
-      chatId,
-      `City - ${data.name}\nTemperature - ${data.main.temp} C`,
-      {
-        reply_markup: mainMenuKeyboard,
-      }
-    );
+  private startSendWeather = (chatId: ChatId, city: string, hours: string) => {
+    const time = Number(hours) * 3600000;
+
+    this.weatherInterval = setInterval(async () => {
+      const data = await this.weatherService.getWeatherByCity(city);
+
+      this.bot.sendMessage(
+        chatId,
+        `City - ${data.name}\nTemperature - ${data.main.temp} C`,
+        {
+          reply_markup: stopAndGoToMainMenuKeyboard,
+        }
+      );
+    }, time);
+  };
+
+  public stopSendWeather = (chatId: ChatId) => {
+    clearInterval(this.weatherInterval);
+    this.mainMenuCase(chatId);
   };
 }
 
