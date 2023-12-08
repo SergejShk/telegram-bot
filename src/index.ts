@@ -14,11 +14,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
+app.get("/", (_, res) => {
   res.send("Server is working!");
 });
 
-app.post("/", (_, res) => {
+app.post("/", (req, res) => {
+  const { body } = req.body;
+  bot.processUpdate(body);
   res.sendStatus(200);
 });
 
