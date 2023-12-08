@@ -2,6 +2,7 @@ import TelegramBot from "node-telegram-bot-api";
 import "dotenv/config";
 
 import WeatherService from "./services/WeatherService";
+import CurrencyService from "./services/CurrencyService";
 
 import MainController from "./controllers/MainController";
 import Weather from "./controllers/Weather";
@@ -17,10 +18,11 @@ const start = () => {
   const bot = new TelegramBot(botToken, { polling: true });
 
   const weatherService = new WeatherService();
+  const currencyService = new CurrencyService();
 
   const mainController = new MainController(bot);
   const weather = new Weather(bot, weatherService);
-  const currency = new Currency(bot);
+  const currency = new Currency(bot, currencyService);
 
   mainController.setCommands();
 
@@ -72,6 +74,9 @@ const start = () => {
 
       case "stop_and_go_to_main_menu":
         return weather.stopSendWeather(chatId);
+
+      case "USD":
+        return currency.selectedCurrencyCase(chatId, data);
 
       default:
         return mainController.defaultCase(chatId);

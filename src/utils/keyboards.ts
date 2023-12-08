@@ -70,11 +70,11 @@ export const currencyKeyboard = {
     [
       {
         text: "USD",
-        callback_data: "usd",
+        callback_data: "USD",
       },
       {
         text: "EUR",
-        callback_data: "eur",
+        callback_data: "EUR",
       },
     ],
     ...mainMenuKeyboard.inline_keyboard,

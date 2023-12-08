@@ -2,12 +2,16 @@ interface IVariables {
   TL_BOT_TOKEN: string;
   WEATHER_BASE_URL: string;
   WEATHER_API_KEY: string;
+  PB_API: string;
+  MONO_API: string;
 }
 
 const variables: IVariables = {
   TL_BOT_TOKEN: process.env.TL_BOT_TOKEN || "",
   WEATHER_BASE_URL: process.env.WEATHER_BASE_URL || "",
   WEATHER_API_KEY: process.env.WEATHER_API_KEY || "",
+  PB_API: process.env.PB_API || "",
+  MONO_API: process.env.MONO_API || "",
 };
 
 export const validateEnvVariables = () => {
