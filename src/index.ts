@@ -18,9 +18,9 @@ app.get("/", (_, res) => {
   res.send("Server is working!");
 });
 
-app.post("/", (req, res) => {
-  const { body } = req.body;
-  bot.processUpdate(body);
+app.post("/bot", (_, res) => {
+  //   const { body } = req.body;
+  //   bot.processUpdate(body);
   res.sendStatus(200);
 });
 
@@ -30,7 +30,7 @@ app.listen(PORT, () => {
 
 const bot = new TelegramBot(botToken, { polling: true });
 
-bot.setWebHook(apiUrl);
+bot.setWebHook(`${apiUrl}/bot`);
 
 bot.on("message", (msg) => {
   const chatId = msg.chat.id;
