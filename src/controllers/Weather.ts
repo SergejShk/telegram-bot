@@ -46,22 +46,27 @@ class Weather extends MainController {
       return this.defaultCase(chatId);
     }
 
+    await this.sendWeather(chatId, city);
     this.startSendWeather(chatId, city, hours);
+  };
+
+  private sendWeather = async (chatId: ChatId, city: string) => {
+    const data = await this.weatherService.getWeatherByCity(city);
+
+    this.bot.sendMessage(
+      chatId,
+      `City: ${data.name}\nTemperature: ${data.main.temp} C`,
+      {
+        reply_markup: stopAndGoToMainMenuKeyboard,
+      }
+    );
   };
 
   private startSendWeather = (chatId: ChatId, city: string, hours: string) => {
     const time = Number(hours) * 3600000;
 
     this.weatherInterval = setInterval(async () => {
-      const data = await this.weatherService.getWeatherByCity(city);
-
-      this.bot.sendMessage(
-        chatId,
-        `City - ${data.name}\nTemperature - ${data.main.temp} C`,
-        {
-          reply_markup: stopAndGoToMainMenuKeyboard,
-        }
-      );
+      await this.sendWeather(chatId, city);
     }, time);
   };
 
