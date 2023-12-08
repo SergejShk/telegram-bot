@@ -19,10 +19,18 @@ app.get("/", (_, res) => {
   res.send("Server is working!");
 });
 
-app.post("/bot", (req, res) => {
+app.get("/bot", (req, res) => {
   if (!req.body) return res.sendStatus(200);
   const { body } = req.body;
-  console.log("BODY", body);
+
+  bot.processUpdate(body);
+  res.sendStatus(200);
+});
+
+app.post("bot", (req, res) => {
+  if (!req.body) return res.sendStatus(200);
+  const { body } = req.body;
+
   bot.processUpdate(body);
   res.sendStatus(200);
 });
