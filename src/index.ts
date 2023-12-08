@@ -7,7 +7,8 @@ dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 const botToken = process.env.TL_BOT_TOKEN || "";
-const apiUrl = process.env.API_URL || "";
+// const apiUrl = process.env.API_URL || "";
+const tlWebhookUrl = process.env.TL_WEBHOOK_URL || "";
 
 const app = express();
 
@@ -18,9 +19,11 @@ app.get("/", (_, res) => {
   res.send("Server is working!");
 });
 
-app.post("/bot", (_, res) => {
-  //   const { body } = req.body;
-  //   bot.processUpdate(body);
+app.post("/bot", (req, res) => {
+  if (!req.body) return res.sendStatus(200);
+  const { body } = req.body;
+  console.log("BODY", body);
+  bot.processUpdate(body);
   res.sendStatus(200);
 });
 
@@ -30,7 +33,7 @@ app.listen(PORT, () => {
 
 const bot = new TelegramBot(botToken, { polling: true });
 
-bot.setWebHook(`${apiUrl}/bot`);
+bot.setWebHook(`${tlWebhookUrl}/bot`);
 
 bot.on("message", (msg) => {
   const chatId = msg.chat.id;
